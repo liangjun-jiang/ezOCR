@@ -85,12 +85,11 @@ typedef enum {
 @implementation KNSecondViewController
 @synthesize navBar, imageView, overlayViewController, capturedImages;
 @synthesize progressHud;
+@synthesize processButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-//      self.title = @"Second";
-      
         // but is copied to the Documents directory on the first run.
         NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentPath = ([documentPaths count] > 0) ? [documentPaths objectAtIndex:0] : nil;
@@ -153,6 +152,8 @@ typedef enum {
         self.navigationItem.rightBarButtonItem = nil;
     }
     
+    imageView.controlColor = [UIColor cyanColor];
+    
 }
 
 - (void)viewDidUnload
@@ -168,9 +169,6 @@ typedef enum {
 
 - (void)showImagePicker:(UIImagePickerControllerSourceType)sourceType
 {
-    if (self.imageView.isAnimating)
-        [self.imageView stopAnimating];
-	
     if (self.capturedImages.count > 0)
         [self.capturedImages removeAllObjects];
     
@@ -209,42 +207,32 @@ typedef enum {
             // we took a single shot
             [self.imageView setImage:[self.capturedImages objectAtIndex:0]];
         }
-        else
-        {
+//        else
+//        {
             // we took multiple shots, use the list of images for animation
-            self.imageView.animationImages = self.capturedImages;
-            
-            if (self.capturedImages.count > 0)
-                // we are done with the image list until next time
-                [self.capturedImages removeAllObjects];
-            
-            self.imageView.animationDuration = 5.0;    // show each captured photo for 5 seconds
-            self.imageView.animationRepeatCount = 0;   // animate forever (show all photos)
-            [self.imageView startAnimating];
-        }
+//            self.imageView.animationImages = self.capturedImages;
+//            
+//            if (self.capturedImages.count > 0)
+//                // we are done with the image list until next time
+//                [self.capturedImages removeAllObjects];
+//            
+//            self.imageView.animationDuration = 5.0;    // show each captured photo for 5 seconds
+//            self.imageView.animationRepeatCount = 0;   // animate forever (show all photos)
+//            [self.imageView startAnimating];
+//        }
         
-        self.progressHud = [[MBProgressHUD alloc] initWithView:self.view];
-        self.progressHud.labelText = @"Processing OCR";
         
-        [self.view addSubview:self.progressHud];
-        [self.progressHud showWhileExecuting:@selector(processOcrAt:) onTarget:self withObject:self.imageView.image animated:YES];
     }
 }
 
-
-#pragma mark - Demo
-
-- (void)presentSemiViewController {
-
-    semiVC.result
-  // You can also present a UIViewController with complex views in it
-  // and optionally containing an explicit dismiss button for semi modal
-  [self presentSemiViewController:semiVC withOptions:@{
-		 KNSemiModalOptionKeys.pushParentBack    : @(YES),
-		 KNSemiModalOptionKeys.animationDuration : @(2.0),
-		 KNSemiModalOptionKeys.shadowOpacity     : @(0.3),
-	 }];
-
+- (IBAction)onProcessing:(id)sender
+{
+    self.progressHud = [[MBProgressHUD alloc] initWithView:self.view];
+    self.progressHud.labelText = @"Processing OCR";
+    
+    [self.view addSubview:self.progressHud];
+//     imageView.image = [self imageFromcroppedArea:imageView.cropAreaInImage];
+    [self.progressHud showWhileExecuting:@selector(processOcrAt:) onTarget:self withObject:[self imageFromcroppedArea:imageView.cropAreaInImage] animated:YES];
 }
 
 #pragma mark - Optional notifications
@@ -275,7 +263,8 @@ typedef enum {
 
 - (void)processOcrAt:(UIImage *)image
 {
-    [self setTesseractImage:image];
+    // convert to gray to make OCR better
+    [self setTesseractImage:[image convertToGrayscale]];
     
     tesseract->Recognize(NULL);
     char* utf8Text = tesseract->GetUTF8Text();
@@ -287,7 +276,7 @@ typedef enum {
 
 - (void)ocrProcessingFinished:(NSString *)result
 {
-    [self.progressHud dismissed];
+    [self.progressHud hide:YES];
 //    [[[UIAlertView alloc] initWithTitle:@"Tesseract Sample"
 //                                message:[NSString stringWithFormat:@"Recognized:\n%@", result]
 //                               delegate:nil
@@ -336,77 +325,84 @@ typedef enum {
 
 // conver to grayscale
 // http://iosdevelopertips.com/graphics/convert-an-image-uiimage-to-grayscale.html
-- (UIImage *)convertImageToGrayScale:(UIImage *)image
-{
-    // Create image rectangle with current image width/height
-    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
-    
-    // Grayscale color space
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-    
-    // Create bitmap content with current image size and grayscale colorspace
-    CGContextRef context = CGBitmapContextCreate(nil, image.size.width, image.size.height, 8, 0, colorSpace, kCGImageAlphaNone);
-    
-    // Draw image into current context, with specified rectangle
-    // using previously defined context (with grayscale colorspace)
-    CGContextDrawImage(context, imageRect, [image CGImage]);
-    
-    // Create bitmap image info from pixel data in current context
-    CGImageRef imageRef = CGBitmapContextCreateImage(context);
-    
-    // Create a new UIImage object
-    UIImage *newImage = [UIImage imageWithCGImage:imageRef];
-    
-    // Release colorspace, context and bitmap information
-    CGColorSpaceRelease(colorSpace);
-    CGContextRelease(context);
-    CFRelease(imageRef);
-    
-    // Return the new grayscale image
-    return newImage;
-}
+//- (UIImage *)convertImageToGrayScale:(UIImage *)image
+//{
+//    // Create image rectangle with current image width/height
+//    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
+//    
+//    // Grayscale color space
+//    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+//    
+//    // Create bitmap content with current image size and grayscale colorspace
+//    CGContextRef context = CGBitmapContextCreate(nil, image.size.width, image.size.height, 8, 0, colorSpace, kCGImageAlphaNone);
+//    
+//    // Draw image into current context, with specified rectangle
+//    // using previously defined context (with grayscale colorspace)
+//    CGContextDrawImage(context, imageRect, [image CGImage]);
+//    
+//    // Create bitmap image info from pixel data in current context
+//    CGImageRef imageRef = CGBitmapContextCreateImage(context);
+//    
+//    // Create a new UIImage object
+//    UIImage *newImage = [UIImage imageWithCGImage:imageRef];
+//    
+//    // Release colorspace, context and bitmap information
+//    CGColorSpaceRelease(colorSpace);
+//    CGContextRelease(context);
+//    CFRelease(imageRef);
+//    
+//    // Return the new grayscale image
+//    return newImage;
+//}
+//
+//
+//// this does the trick to have tesseract accept the UIImage.
+//// http://stackoverflow.com/questions/13511102/ios-tesseract-ocr-image-preperation
+//- (UIImage *)gs_convert_image:(UIImage *)src_img
+//{
+//    CGColorSpaceRef d_colorSpace = CGColorSpaceCreateDeviceRGB();
+//    /*
+//     * Note we specify 4 bytes per pixel here even though we ignore the
+//     * alpha value; you can't specify 3 bytes per-pixel.
+//     */
+//    size_t d_bytesPerRow = src_img.size.width * 4;
+//    unsigned char * imgData = (unsigned char*)malloc(src_img.size.height*d_bytesPerRow);
+//    CGContextRef context =  CGBitmapContextCreate(imgData, src_img.size.width,
+//                                                  src_img.size.height,
+//                                                  8, d_bytesPerRow,
+//                                                  d_colorSpace,
+//                                                  kCGImageAlphaNoneSkipFirst);
+//    
+//    UIGraphicsPushContext(context);
+//    // These next two lines 'flip' the drawing so it doesn't appear upside-down.
+//    CGContextTranslateCTM(context, 0.0, src_img.size.height);
+//    CGContextScaleCTM(context, 1.0, -1.0);
+//    // Use UIImage's drawInRect: instead of the CGContextDrawImage function, otherwise you'll have issues when the source image is in portrait orientation.
+//    [src_img drawInRect:CGRectMake(0.0, 0.0, src_img.size.width, src_img.size.height)];
+//    UIGraphicsPopContext();
+//    
+//    /*
+//     * At this point, we have the raw ARGB pixel data in the imgData buffer, so
+//     * we can perform whatever image processing here.
+//     */
+//    
+//    
+//    // After we've processed the raw data, turn it back into a UIImage instance.
+//    CGImageRef new_img = CGBitmapContextCreateImage(context);
+//    UIImage * convertedImage = [[UIImage alloc] initWithCGImage:
+//                                new_img];
+//    
+//    CGImageRelease(new_img);
+//    CGContextRelease(context);
+//    CGColorSpaceRelease(d_colorSpace);
+//    free(imgData);
+//    return convertedImage;
+//}
 
-
-// this does the trick to have tesseract accept the UIImage.
-// http://stackoverflow.com/questions/13511102/ios-tesseract-ocr-image-preperation
-- (UIImage *)gs_convert_image:(UIImage *)src_img
-{
-    CGColorSpaceRef d_colorSpace = CGColorSpaceCreateDeviceRGB();
-    /*
-     * Note we specify 4 bytes per pixel here even though we ignore the
-     * alpha value; you can't specify 3 bytes per-pixel.
-     */
-    size_t d_bytesPerRow = src_img.size.width * 4;
-    unsigned char * imgData = (unsigned char*)malloc(src_img.size.height*d_bytesPerRow);
-    CGContextRef context =  CGBitmapContextCreate(imgData, src_img.size.width,
-                                                  src_img.size.height,
-                                                  8, d_bytesPerRow,
-                                                  d_colorSpace,
-                                                  kCGImageAlphaNoneSkipFirst);
-    
-    UIGraphicsPushContext(context);
-    // These next two lines 'flip' the drawing so it doesn't appear upside-down.
-    CGContextTranslateCTM(context, 0.0, src_img.size.height);
-    CGContextScaleCTM(context, 1.0, -1.0);
-    // Use UIImage's drawInRect: instead of the CGContextDrawImage function, otherwise you'll have issues when the source image is in portrait orientation.
-    [src_img drawInRect:CGRectMake(0.0, 0.0, src_img.size.width, src_img.size.height)];
-    UIGraphicsPopContext();
-    
-    /*
-     * At this point, we have the raw ARGB pixel data in the imgData buffer, so
-     * we can perform whatever image processing here.
-     */
-    
-    
-    // After we've processed the raw data, turn it back into a UIImage instance.
-    CGImageRef new_img = CGBitmapContextCreateImage(context);
-    UIImage * convertedImage = [[UIImage alloc] initWithCGImage:
-                                new_img];
-    
-    CGImageRelease(new_img);
-    CGContextRelease(context);
-    CGColorSpaceRelease(d_colorSpace);
-    free(imgData);
-    return convertedImage;
+- (UIImage *)imageFromcroppedArea:(CGRect)bounds {
+    CGImageRef imageRef = CGImageCreateWithImageInRect([self.imageView.image CGImage], bounds);
+    UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    return croppedImage;
 }
 @end

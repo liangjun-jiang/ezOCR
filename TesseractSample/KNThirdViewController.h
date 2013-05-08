@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIButton *retryButton;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
+@property (nonatomic, strong) NSString *result;
 
 - (IBAction)dismissButtonDidTouch:(id)sender;
 - (IBAction)onSaveButton:(id)sender;

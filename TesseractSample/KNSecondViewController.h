@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OverlayViewController.h"
+#import "ImageCropView.h"
 
 @class MBProgressHUD;
 
@@ -28,7 +29,9 @@ namespace tesseract {
 }
 
 @property (nonatomic, assign) IBOutlet UINavigationBar *navBar;
-@property (nonatomic, assign) IBOutlet UIImageView *imageView;
+@property (nonatomic, assign) IBOutlet ImageCropView *imageView;
+@property (nonatomic, assign) IBOutlet UIButton *processButton;
+
 
 @property (nonatomic, strong) OverlayViewController *overlayViewController;
 

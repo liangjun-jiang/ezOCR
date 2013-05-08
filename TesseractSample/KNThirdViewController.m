@@ -18,6 +18,7 @@
 @synthesize textView;
 @synthesize retryButton;
 @synthesize saveButton;
+@synthesize result;
 
 - (void)viewDidLoad {
   [super viewDidLoad];

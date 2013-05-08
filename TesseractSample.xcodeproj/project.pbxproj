@@ -45,6 +45,7 @@
 		D69C7A311739A3D900633B81 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D69C7A301739A3D900633B81 /* AudioToolbox.framework */; };
 		D69C7A331739C4F600633B81 /* tick.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D69C7A321739C4F600633B81 /* tick.aiff */; };
 		D69C7A351739C50B00633B81 /* OverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D69C7A341739C50B00633B81 /* OverlayViewController.xib */; };
+		D69C7A381739DCE600633B81 /* ImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = D69C7A371739DCE600633B81 /* ImageCropView.m */; };
 		D6CE8CD11736A59D00B72609 /* back.JPG in Resources */ = {isa = PBXBuildFile; fileRef = D6CE8CCF1736A59D00B72609 /* back.JPG */; };
 		D6CE8CD21736A59D00B72609 /* front.JPG in Resources */ = {isa = PBXBuildFile; fileRef = D6CE8CD01736A59D00B72609 /* front.JPG */; };
 		D6CE8CD41736A64B00B72609 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = D6CE8CD31736A64B00B72609 /* test.png */; };
@@ -152,6 +153,8 @@
 		D69C7A301739A3D900633B81 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D69C7A321739C4F600633B81 /* tick.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = tick.aiff; sourceTree = "<group>"; };
 		D69C7A341739C50B00633B81 /* OverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayViewController.xib; sourceTree = "<group>"; };
+		D69C7A361739DCE600633B81 /* ImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCropView.h; sourceTree = "<group>"; };
+		D69C7A371739DCE600633B81 /* ImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCropView.m; sourceTree = "<group>"; };
 		D6CE8CCF1736A59D00B72609 /* back.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = back.JPG; sourceTree = "<group>"; };
 		D6CE8CD01736A59D00B72609 /* front.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = front.JPG; sourceTree = "<group>"; };
 		D6CE8CD31736A64B00B72609 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
@@ -216,6 +219,8 @@
 		17E5A615146017E9004B1CA6 /* TesseractSample */ = {
 			isa = PBXGroup;
 			children = (
+				D69C7A361739DCE600633B81 /* ImageCropView.h */,
+				D69C7A371739DCE600633B81 /* ImageCropView.m */,
 				D69C7A23173994BD00633B81 /* DirectoryWatcher.h */,
 				D69C7A24173994BD00633B81 /* DirectoryWatcher.m */,
 				D69C7A25173994BD00633B81 /* DITableViewController.h */,
@@ -482,6 +487,7 @@
 				D69C7A28173994BE00633B81 /* DirectoryWatcher.m in Sources */,
 				D69C7A29173994BE00633B81 /* DITableViewController.m in Sources */,
 				D69C7A2F1739A29200633B81 /* OverlayViewController.m in Sources */,
+				D69C7A381739DCE600633B81 /* ImageCropView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
