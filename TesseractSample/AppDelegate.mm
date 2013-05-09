@@ -31,6 +31,10 @@
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:tableView];
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = @[vc2,navController];
+//    self.tabBarController.tabBar.items[0] = [[UITabBarItem alloc] initWithTitle:@"OCR" image:[UIImage imageNamed:@"first"] tag:100];
+//    self.tabBarController.tabBar.items[1] = [[UITabBarItem alloc] initWithTitle:@"History" image:[UIImage imageNamed:@"second"] tag:100];
+    [self.tabBarController.tabBar.items[0] setTitle:@"OCR"];
+    [self.tabBarController.tabBar.items[1] setTitle:@"History"];
     self.window.rootViewController = self.tabBarController;
     
     [self.window makeKeyAndVisible];

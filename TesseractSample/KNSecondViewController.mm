@@ -10,9 +10,8 @@
 #import "KNThirdViewController.h"
 #import "UIViewController+KNSemiModal.h"
 #import "MBProgressHUD.h"
-
+#import <QuartzCore/QuartzCore.h>
 #include "baseapi.h"
-
 #include "environ.h"
 #import "pix.h"
 
@@ -368,6 +367,7 @@ typedef enum {
 - (void)viewDidLoad
 {
     self.tabBarItem.image = [UIImage imageNamed:@"second"];
+    self.tabBarItem.title = @"OCR";
     
     // Take note that you need to take ownership of the ViewController that is being presented
     semiVC = [[KNThirdViewController alloc] initWithNibName:@"KNThirdViewController" bundle:nil];
@@ -386,6 +386,9 @@ typedef enum {
         self.navigationItem.rightBarButtonItem = nil;
     }
     self.processButton.enabled = NO;
+    self.processButton.hidden = YES;
+    self.processButton.layer.cornerRadius  = 10.0f;
+    self.processButton.layer.masksToBounds = YES;
     
 }
 
@@ -440,6 +443,7 @@ typedef enum {
             // we took a single shot
             [self.imageView setImage:[self.capturedImages objectAtIndex:0]];
             processButton.enabled = YES;
+            processButton.hidden = NO;
         }
         else
         {
@@ -478,18 +482,21 @@ typedef enum {
 
 - (void) semiModalResized:(NSNotification *) notification {
   if(notification.object == self){
-    NSLog(@"The view controller presented was been resized");
+//    NSLog(@"The view controller presented was been resized");
+//      semiVC.textView.text = resu
   }
 }
 
 - (void)semiModalPresented:(NSNotification *) notification {
   if (notification.object == self) {
-    NSLog(@"This view controller just shown a view with semi modal annimation");
+//    NSLog(@"This view controller just shown a view with semi modal annimation");
   }
 }
 - (void)semiModalDismissed:(NSNotification *) notification {
   if (notification.object == self) {
-    NSLog(@"A view controller was dismissed with semi modal annimation");
+//    NSLog(@"A view controller was dismissed with semi modal annimation");
+      semiVC.textView.text = @"";
+      
   }
 }
 
@@ -516,11 +523,11 @@ typedef enum {
 - (void)ocrProcessingFinished:(NSString *)result
 {
     [self.progressHud hide:YES];
-    [[[UIAlertView alloc] initWithTitle:@"Result"
-                                message:[NSString stringWithFormat:@"Recognized:\n%@", result]
-                               delegate:nil
-                      cancelButtonTitle:nil
-                      otherButtonTitles:@"OK", nil] show];
+//    [[[UIAlertView alloc] initWithTitle:@"Result"
+//                                message:[NSString stringWithFormat:@"Recognized:\n%@", result]
+//                               delegate:nil
+//                      cancelButtonTitle:nil
+//                      otherButtonTitles:@"OK", nil] show];
     semiVC.result = result;
     
     [self presentSemiViewController:semiVC withOptions:@{

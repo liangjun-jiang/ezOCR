@@ -52,7 +52,7 @@
 {
 	[super viewDidLoad];
 	
-	self.title = NSLocalizedString(@"TextViewTitle", @"");
+	self.title = [[self.fileURL path] lastPathComponent];
 	[self setupTextView];
 }
 
@@ -70,11 +70,11 @@
 - (void)keyboardWillShow:(NSNotification *)aNotification 
 {
 	// the keyboard is showing so resize the table's height
-//	CGRect keyboardRect = [[aNotification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
+	CGRect keyboardRect = [[aNotification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
     NSTimeInterval animationDuration =
 	[[aNotification userInfo][UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     CGRect frame = self.view.frame;
-//    frame.size.height -= keyboardRect.size.height;
+    frame.size.height -= keyboardRect.size.height;
     [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
     [UIView setAnimationDuration:animationDuration];
     self.view.frame = frame;

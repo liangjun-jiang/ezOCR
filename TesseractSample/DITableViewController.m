@@ -99,7 +99,7 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
     if (self.docInteractionController == nil)
     {
         self.docInteractionController = [UIDocumentInteractionController interactionControllerWithURL:url];
-        self.docInteractionController.delegate = self;
+//        self.docInteractionController.delegate = self;
     }
     else
     {
@@ -119,7 +119,10 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
 {
     [super viewDidLoad];
     
-    self.title = @"Files";
+    self.title = @"History";
+    
+    self.tabBarItem.image = [UIImage imageNamed:@"first"];
+    self.tabBarItem.title = @"History";
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
@@ -411,6 +414,7 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
     
     NSURL *fileURL= [self.documentURLs objectAtIndex:indexPath.row];
     TextViewController *textViewController = [[TextViewController alloc] initWithFileURL:fileURL];
+    textViewController.hidesBottomBarWhenPushed = YES;
     [[self navigationController] pushViewController:textViewController animated:YES];
     
 
