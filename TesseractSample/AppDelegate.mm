@@ -7,14 +7,9 @@
 //
 
 #import "AppDelegate.h"
-
-#import "ViewController.h"
 #import "KNSecondViewController.h"
-#import "KNModalTableViewController.h"
 #import "DITableViewController.h"
-#import "KNFirstViewController.h"
-#import "KNTableDemoController.h"
-
+#import "AboutViewController.h"
 
 @implementation AppDelegate
 
@@ -28,13 +23,16 @@
  
     UIViewController * vc2 = [[KNSecondViewController alloc] initWithNibName:@"KNSecondViewController" bundle:nil];
     DITableViewController *tableView = [[DITableViewController alloc] initWithNibName:@"DITableViewController" bundle:nil];
+    AboutViewController  *aboutViewController = [[AboutViewController alloc] initWithStyle:UITableViewStyleGrouped];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:tableView];
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = @[vc2,navController];
+    self.tabBarController.viewControllers = @[vc2,navController,aboutViewController];
 //    self.tabBarController.tabBar.items[0] = [[UITabBarItem alloc] initWithTitle:@"OCR" image:[UIImage imageNamed:@"first"] tag:100];
 //    self.tabBarController.tabBar.items[1] = [[UITabBarItem alloc] initWithTitle:@"History" image:[UIImage imageNamed:@"second"] tag:100];
     [self.tabBarController.tabBar.items[0] setTitle:@"OCR"];
     [self.tabBarController.tabBar.items[1] setTitle:@"History"];
+    [self.tabBarController.tabBar.items[2] setTitle:@"About"];
+    
     self.window.rootViewController = self.tabBarController;
     
     [self.window makeKeyAndVisible];
