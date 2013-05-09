@@ -59,14 +59,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		17E5A60B146017E9004B1CA6 /* TesseractSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TesseractSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		17E5A60B146017E9004B1CA6 /* EZOCR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EZOCR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17E5A60F146017E9004B1CA6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		17E5A611146017E9004B1CA6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		17E5A613146017E9004B1CA6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		17E5A617146017E9004B1CA6 /* TesseractSample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TesseractSample-Info.plist"; sourceTree = "<group>"; };
+		17E5A617146017E9004B1CA6 /* EZOCR-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EZOCR-Info.plist"; sourceTree = "<group>"; };
 		17E5A619146017E9004B1CA6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		17E5A61B146017E9004B1CA6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		17E5A61D146017E9004B1CA6 /* TesseractSample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TesseractSample-Prefix.pch"; sourceTree = "<group>"; };
+		17E5A61D146017E9004B1CA6 /* EZOCR-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EZOCR-Prefix.pch"; sourceTree = "<group>"; };
 		17E5A61E146017E9004B1CA6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		17E5A61F146017E9004B1CA6 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		17E5A621146017E9004B1CA6 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -198,7 +198,7 @@
 		17E5A60C146017E9004B1CA6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				17E5A60B146017E9004B1CA6 /* TesseractSample.app */,
+				17E5A60B146017E9004B1CA6 /* EZOCR.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -278,10 +278,10 @@
 				D6CE8CD31736A64B00B72609 /* test.png */,
 				D6CE8CCF1736A59D00B72609 /* back.JPG */,
 				D6CE8CD01736A59D00B72609 /* front.JPG */,
-				17E5A617146017E9004B1CA6 /* TesseractSample-Info.plist */,
+				17E5A617146017E9004B1CA6 /* EZOCR-Info.plist */,
 				17E5A618146017E9004B1CA6 /* InfoPlist.strings */,
 				17E5A61B146017E9004B1CA6 /* main.m */,
-				17E5A61D146017E9004B1CA6 /* TesseractSample-Prefix.pch */,
+				17E5A61D146017E9004B1CA6 /* EZOCR-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -390,9 +390,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		17E5A60A146017E9004B1CA6 /* TesseractSample */ = {
+		17E5A60A146017E9004B1CA6 /* EZOCR */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 17E5A629146017EA004B1CA6 /* Build configuration list for PBXNativeTarget "TesseractSample" */;
+			buildConfigurationList = 17E5A629146017EA004B1CA6 /* Build configuration list for PBXNativeTarget "EZOCR" */;
 			buildPhases = (
 				17E5A607146017E9004B1CA6 /* Sources */,
 				17E5A608146017E9004B1CA6 /* Frameworks */,
@@ -402,9 +402,9 @@
 			);
 			dependencies = (
 			);
-			name = TesseractSample;
+			name = EZOCR;
 			productName = TesseractSample;
-			productReference = 17E5A60B146017E9004B1CA6 /* TesseractSample.app */;
+			productReference = 17E5A60B146017E9004B1CA6 /* EZOCR.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -415,7 +415,7 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = 17E5A605146017E9004B1CA6 /* Build configuration list for PBXProject "TesseractSample" */;
+			buildConfigurationList = 17E5A605146017E9004B1CA6 /* Build configuration list for PBXProject "EZOCR" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -427,7 +427,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				17E5A60A146017E9004B1CA6 /* TesseractSample */,
+				17E5A60A146017E9004B1CA6 /* EZOCR */,
 			);
 		};
 /* End PBXProject section */
@@ -564,15 +564,15 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Liangjun Jiang (NLHVYBKJKH)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TesseractSample/TesseractSample-Prefix.pch";
-				INFOPLIST_FILE = "TesseractSample/TesseractSample-Info.plist";
+				GCC_PREFIX_HEADER = "TesseractSample/EZOCR-Prefix.pch";
+				INFOPLIST_FILE = "TesseractSample/EZOCR-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/TesseractSample/build_dependencies/dependencies/lib\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = EZOCR;
 				PROVISIONING_PROFILE = "FFFFD1B6-53BF-47D1-93B7-14B8A5852B3C";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -585,15 +585,15 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Liangjun Jiang (NLHVYBKJKH)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TesseractSample/TesseractSample-Prefix.pch";
-				INFOPLIST_FILE = "TesseractSample/TesseractSample-Info.plist";
+				GCC_PREFIX_HEADER = "TesseractSample/EZOCR-Prefix.pch";
+				INFOPLIST_FILE = "TesseractSample/EZOCR-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/TesseractSample/build_dependencies/dependencies/lib\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = EZOCR;
 				PROVISIONING_PROFILE = "FFFFD1B6-53BF-47D1-93B7-14B8A5852B3C";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -603,7 +603,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		17E5A605146017E9004B1CA6 /* Build configuration list for PBXProject "TesseractSample" */ = {
+		17E5A605146017E9004B1CA6 /* Build configuration list for PBXProject "EZOCR" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				17E5A627146017E9004B1CA6 /* Debug */,
@@ -612,7 +612,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		17E5A629146017EA004B1CA6 /* Build configuration list for PBXNativeTarget "TesseractSample" */ = {
+		17E5A629146017EA004B1CA6 /* Build configuration list for PBXNativeTarget "EZOCR" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				17E5A62A146017EA004B1CA6 /* Debug */,
