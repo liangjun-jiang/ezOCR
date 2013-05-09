@@ -13,9 +13,10 @@
 
 @interface DITableViewController : UITableViewController <QLPreviewControllerDataSource,
                                                           QLPreviewControllerDelegate,
-                                                          DirectoryWatcherDelegate,
-                                                          UIDocumentInteractionControllerDelegate
-                                                          >
+                                                          DirectoryWatcherDelegate>
+//,
+//                                                          UIDocumentInteractionControllerDelegate
+//                                                          >
 {
     DirectoryWatcher *docWatcher;
     NSMutableArray *documentURLs;

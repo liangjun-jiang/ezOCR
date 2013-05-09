@@ -105,7 +105,7 @@
 {
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     
-    NSString *filesDirectory = [documentsDirectory stringByAppendingPathComponent:@"attachments"];
+    NSString *filesDirectory = [documentsDirectory stringByAppendingPathComponent:@"Files"];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:filesDirectory]){
         

@@ -7,6 +7,9 @@
 #import "DITableViewController.h"
 #import "MBProgressHUD.h"
 #import "AppDelegate.h"
+#import <MessageUI/MFMailComposeViewController.h>
+#import <MessageUI/MessageUI.h>
+#import "TextViewController.h"
 
 /* UIDocumentInteractionController only suppport two actons: print & copy
 http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocumentInteractionControllerDelegate_protocol/DeprecationAppendix/AppendixADeprecatedAPI.html#//apple_ref/occ/intfm/UIDocumentInteractionControllerDelegate/documentInteractionController:canPerformAction:
@@ -18,7 +21,7 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
 @end
 
 
-@interface DITableViewController()<UISearchBarDelegate, UISearchDisplayDelegate, UIGestureRecognizerDelegate>
+@interface DITableViewController()<UISearchBarDelegate, UISearchDisplayDelegate, UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate>
 {
     NSMutableArray	*filteredListContent;
     NSString		*savedSearchTerm;
@@ -36,40 +39,40 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
 
 #define kRowHeight 58.0f
 
-NSString* PluralizeTimeUnits(NSString *unit, int n)
-{
-    NSString *futureFormat = NSLocalizedString(@"RelativeDateFutureFormat", @"in %i %@");
-    NSString *pastFormat = NSLocalizedString(@"RelativeDatePastFormat", @"%i %@ ago");
-    
-    NSString *format = ((n < 0) ? futureFormat : pastFormat);
-    int count = ABS(n);
-    
-    // construct a key for the localized time unit, like SingularHour, or PluralMinute, etc.
-    NSString *unitKey = [NSString stringWithFormat:@"%@%@", (count == 1) ? @"Singular" : @"Plural", unit];
-    NSString *unitText = NSLocalizedString(unitKey, nil);
-    return [NSString stringWithFormat:format, count, unitText];
-}
-
-#define MAX_HOURS 6
-
-NSString* RelativeDateString(NSDate *date)
-{
-    NSCalendar *cal = [NSCalendar autoupdatingCurrentCalendar];
-    NSInteger flags = NSSecondCalendarUnit | NSMinuteCalendarUnit | NSHourCalendarUnit;
-    NSDateComponents *components = [cal components:flags fromDate:date toDate:[NSDate date] options:0];
-    
-    if (MAX_HOURS < components.hour) {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.timeStyle = NSDateFormatterShortStyle;
-        return [[formatter stringFromDate:date] uppercaseString];
-    } else if (components.hour) {
-        return PluralizeTimeUnits(@"Hour", components.hour);
-    } else if (components.minute) {
-        return PluralizeTimeUnits(@"Minute", components.minute);
-    } else {
-        return PluralizeTimeUnits(@"Second", components.second);
-    }
-}
+//NSString* PluralizeTimeUnits(NSString *unit, int n)
+//{
+//    NSString *futureFormat = NSLocalizedString(@"RelativeDateFutureFormat", @"in %i %@");
+//    NSString *pastFormat = NSLocalizedString(@"RelativeDatePastFormat", @"%i %@ ago");
+//    
+//    NSString *format = ((n < 0) ? futureFormat : pastFormat);
+//    int count = ABS(n);
+//    
+//    // construct a key for the localized time unit, like SingularHour, or PluralMinute, etc.
+//    NSString *unitKey = [NSString stringWithFormat:@"%@%@", (count == 1) ? @"Singular" : @"Plural", unit];
+//    NSString *unitText = NSLocalizedString(unitKey, nil);
+//    return [NSString stringWithFormat:format, count, unitText];
+//}
+//
+//#define MAX_HOURS 6
+//
+//NSString* RelativeDateString(NSDate *date)
+//{
+//    NSCalendar *cal = [NSCalendar autoupdatingCurrentCalendar];
+//    NSInteger flags = NSSecondCalendarUnit | NSMinuteCalendarUnit | NSHourCalendarUnit;
+//    NSDateComponents *components = [cal components:flags fromDate:date toDate:[NSDate date] options:0];
+//    
+//    if (MAX_HOURS < components.hour) {
+//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//        formatter.timeStyle = NSDateFormatterShortStyle;
+//        return [[formatter stringFromDate:date] uppercaseString];
+//    } else if (components.hour) {
+//        return PluralizeTimeUnits(@"Hour", components.hour);
+//    } else if (components.minute) {
+//        return PluralizeTimeUnits(@"Minute", components.minute);
+//    } else {
+//        return PluralizeTimeUnits(@"Second", components.second);
+//    }
+//}
 
 
 @implementation DITableViewController
@@ -81,13 +84,13 @@ NSString* RelativeDateString(NSDate *date)
 #pragma mark -
 #pragma mark View Controller
 
-NSDate *DayFromDate(NSDate *date)
-{
-    NSCalendar *cal = [NSCalendar autoupdatingCurrentCalendar];
-    NSDate *day;
-    [cal rangeOfUnit:NSDayCalendarUnit startDate:&day interval:NULL forDate:date];
-    return day;
-}
+//NSDate *DayFromDate(NSDate *date)
+//{
+//    NSCalendar *cal = [NSCalendar autoupdatingCurrentCalendar];
+//    NSDate *day;
+//    [cal rangeOfUnit:NSDayCalendarUnit startDate:&day interval:NULL forDate:date];
+//    return day;
+//}
 
 
 
@@ -253,6 +256,15 @@ NSDate *DayFromDate(NSDate *date)
 		 
 		NSURL *fileURL = (self.documentURLs)[cellIndexPath.row];
         
+        Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
+        if (mailClass != nil) {
+            //[self displayMailComposerSheet];
+            // We must always check whether the current device is configured for sending emails
+            if ([mailClass canSendMail]) {
+                [self displayMailComposerSheet:fileURL];
+            }
+        }
+        
 //        if ([iKonicMailComposeViewController canSendMail]) {
 //            NSString *fileName = [[fileURL path] lastPathComponent];
 //            iKonicMailComposeViewController *mailViewController = [[iKonicMailComposeViewController alloc] init];
@@ -278,7 +290,6 @@ NSDate *DayFromDate(NSDate *date)
 //        }
         
 //		self.docInteractionController.URL = fileURL;
-		
 //		[self.docInteractionController presentOptionsMenuFromRect:longPressGesture.view.frame
 //                                                           inView:longPressGesture.view
 //                                                         animated:YES];
@@ -293,7 +304,7 @@ NSDate *DayFromDate(NSDate *date)
     if (!cell)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     NSURL *fileURL;
@@ -397,47 +408,13 @@ NSDate *DayFromDate(NSDate *date)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // three ways to present a preview:
-    // 1. Don't implement this method and simply attach the canned gestureRecognizers to the cell
-    //
-    // 2. Don't use canned gesture recognizers and simply use UIDocumentInteractionController's
-    //      presentPreviewAnimated: to get a preview for the document associated with this cell
-    //
-    // 3. Use the QLPreviewController to give the user preview access to the document associated
-    //      with this cell and all the other documents as well.
     
-    // for case 2 use this, allowing UIDocumentInteractionController to handle the preview:
+    NSURL *fileURL= [self.documentURLs objectAtIndex:indexPath.row];
+    TextViewController *textViewController = [[TextViewController alloc] initWithFileURL:fileURL];
+    [[self navigationController] pushViewController:textViewController animated:YES];
     
-//    NSURL *fileURL;
-//    if (indexPath.section == 0)
-//    {
-//        fileURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:documents[indexPath.row] ofType:nil]];
-//    }
-//    else
-//    {
-//        fileURL = [self.documentURLs objectAtIndex:indexPath.row];
-//    }
-    
-//    NSData *encryptedData = [NSData dataWithContentsOfURL:fileURL];
-//    NSError *error;
-//    NSData *decryptedData = [RNDecryptor decryptData:encryptedData withPassword:@"" error:&error];
-//    
-//    NSString *urlString = [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
-//    NSURL *url  = [NSURL URLWithString:urlString];
 
-//    [self setupDocumentControllerWithURL:fileURL];
-//    [self.docInteractionController presentPreviewAnimated:YES];
-//    
     
-    // for case 3 we use the QuickLook APIs directly to preview the document -
-    QLPreviewController *previewController = [[QLPreviewController alloc] init];
-    previewController.dataSource = self;
-    previewController.delegate = self;
-    
-    // start previewing the document at the current section index
-    previewController.currentPreviewItemIndex = indexPath.row;
-    [self presentViewController:previewController animated:YES completion:nil];
-//    [[self navigationController] pushViewController:previewController animated:YES];
 }
 
 
@@ -466,58 +443,36 @@ NSDate *DayFromDate(NSDate *date)
 {
     // if the preview dismissed (done button touched), use this method to post-process previews
     // we delete the tmp directory
-    NSString *tempPath = NSTemporaryDirectory();
-    NSError *error;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:tempPath error:&error];
-    
-    // since we only support 4 type files. We need to do a better job here
-    NSArray *extensions = @[@"pdf",@"PDF",@"jpg",@"png",@"docx",@"xlsx",@"pptx",@"doc",@"xls",@"ppt"];
-    NSArray *files = [dirContents filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"pathExtension IN %@",extensions]];
-    if (!error && [files count] > 0) {
-        [files enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            NSError *removeError;
-            DebugLog(@"file obj: %@",obj);
-            NSString *filePath = [NSString stringWithFormat:@"%@%@", tempPath, obj];
-            [fileManager removeItemAtPath:filePath error:&removeError];
-            if (error) {
-                DebugLog(@"remove file error: %@",[error description]);
-            }
-        }];
-    } else {
-        DebugLog(@"locate file error: %@",[error description]);
-    }
-    
+//    NSString *tempPath = NSTemporaryDirectory();
+//    NSError *error;
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:tempPath error:&error];
+//    
+//    // since we only support 4 type files. We need to do a better job here
+//    NSArray *extensions = @[@"pdf",@"PDF",@"jpg",@"png",@"docx",@"xlsx",@"pptx",@"doc",@"xls",@"ppt"];
+//    NSArray *files = [dirContents filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"pathExtension IN %@",extensions]];
+//    if (!error && [files count] > 0) {
+//        [files enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//            NSError *removeError;
+//            DebugLog(@"file obj: %@",obj);
+//            NSString *filePath = [NSString stringWithFormat:@"%@%@", tempPath, obj];
+//            [fileManager removeItemAtPath:filePath error:&removeError];
+//            if (error) {
+//                DebugLog(@"remove file error: %@",[error description]);
+//            }
+//        }];
+//    } else {
+//        DebugLog(@"locate file error: %@",[error description]);
+//    }
+    // we don't do anything!
     
 }
 
 // returns the item that the preview controller should preview
-//- (id)previewController:(QLPreviewController *)previewController previewItemAtIndex:(NSInteger)idx
-//{
-//    NSURL *fileURL = nil;
-//    fileURL = ([self.searchDisplayController isActive])?self.filteredListContent[idx]:self.documentURLs[idx];
-//    NSURL *url;
-//    NSData *encryptedData = [NSData dataWithContentsOfURL:fileURL];
-//    NSError *error;
-////    if (![RNDecryptor decryptData:encryptedData withPassword:[[PDKeychainBindings sharedKeychainBindings] objectForKey:@"passwordString"] error:&error]) {
-////        DebugLog(@"couldn't decry the data : %@", [error description]);
-////    } else {
-////        NSData *decryptedData = [RNDecryptor decryptData:encryptedData withPassword:[[PDKeychainBindings sharedKeychainBindings] objectForKey:@"passwordString"] error:&error];
-////        // we will have to rewrite the decryptedData to the original file, given the url to let the
-////        // quickLook open it.
-////        NSString *tmpFileName = [[fileURL path] lastPathComponent];
-////        NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:tmpFileName];
-////        url = [NSURL fileURLWithPath:path];
-////        
-////        BOOL success = [decryptedData writeToURL:url options:NSDataWritingFileProtectionComplete error:&error];
-////        if  (success){
-////            return url;
-////        } else {
-////            return nil;
-////        }
-//    }
-//    return url;
-//}
+- (id)previewController:(QLPreviewController *)previewController previewItemAtIndex:(NSInteger)idx
+{
+    return ([self.searchDisplayController isActive])?self.filteredListContent[idx]:self.documentURLs[idx];
+}
 
 
 #pragma mark -
@@ -610,4 +565,46 @@ NSDate *DayFromDate(NSDate *date)
 }
 
 
+-(void)displayMailComposerSheet:(NSURL *)fileURL
+{
+    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    picker.mailComposeDelegate = self;
+    
+    NSString *fileName = [[fileURL path] lastPathComponent];
+    [picker setSubject:fileName];
+    NSData *myData = [NSData dataWithContentsOfURL:fileURL];
+    [picker addAttachmentData:myData mimeType:@"text/html" fileName:fileName];
+    
+    // Fill out the email body text
+    NSString *iTunesLink = @"http://itunes.apple.com/gb/app/whats-on-reading/id347859140?mt=8"; // Link to iTune App link
+    NSString *emailBody = [NSString stringWithFormat:@"Text extrated from image by <a href = '%@'>EZOCR iOS app </a>!",iTunesLink];
+    [picker setMessageBody:emailBody isHTML:YES];
+    
+    [self presentModalViewController:picker animated:YES];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    
+    // Notifies users about errors associated with the interface
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+//            feedbackMsg.text = @"Result: Mail sending canceled";
+            break;
+        case MFMailComposeResultSaved:
+//            feedbackMsg.text = @"Result: Mail saved";
+            break;
+        case MFMailComposeResultSent:
+//            feedbackMsg.text = @"Result: Mail sent";
+            break;
+        case MFMailComposeResultFailed:
+//            feedbackMsg.text = @"Result: Mail sending failed";
+            break;
+        default:
+//            feedbackMsg.text = @"Result: Mail not sent";
+            break;
+    }
+    [self dismissModalViewControllerAnimated:YES];
+}
 @end

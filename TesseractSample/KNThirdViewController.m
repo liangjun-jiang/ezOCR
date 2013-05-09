@@ -9,7 +9,8 @@
 #import "KNThirdViewController.h"
 #import "UIViewController+KNSemiModal.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import "AppDelegate.h"
+#import "MBProgressHUD.h"
 @interface KNThirdViewController ()
 
 @end
@@ -42,6 +43,7 @@
 
   // Here's how to call dismiss button on the parent ViewController
   // be careful with view hierarchy
+    self.textView.text = @"";
   UIViewController * parent = [self.view containingViewController];
   if ([parent respondsToSelector:@selector(dismissSemiModalView)]) {
     [parent dismissSemiModalView];
@@ -57,6 +59,26 @@
 //}
 
 - (IBAction)onSaveButton:(id)sender {
+    static NSDateFormatter *dateFormatter;
+    if (dateFormatter == nil) {
+        dateFormatter = [[NSDateFormatter alloc] init];
+    }
+    [dateFormatter setDateFormat:@"MMddyyyyhhmmss"];
+    NSString *fileName = [dateFormatter stringFromDate:[NSDate date]];
+    
+    NSError *error;
+    AppDelegate *delegate = [AppDelegate appDelegate];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@.txt",[delegate filesDirectoryPath],fileName];
+    
+//    NSLog(@"string to write:%@",printString);
+    // Write to the file
+    [result writeToFile:filePath atomically:YES
+                    encoding:NSUTF8StringEncoding error:&error];
+    
+    if (error == nil) {
+        [self dismissButtonDidTouch:nil];
+    }
+    
     
 }
 

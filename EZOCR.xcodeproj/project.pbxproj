@@ -46,6 +46,9 @@
 		D69C7A331739C4F600633B81 /* tick.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D69C7A321739C4F600633B81 /* tick.aiff */; };
 		D69C7A351739C50B00633B81 /* OverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D69C7A341739C50B00633B81 /* OverlayViewController.xib */; };
 		D69C7A381739DCE600633B81 /* ImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = D69C7A371739DCE600633B81 /* ImageCropView.m */; };
+		D69C7A56173B306800633B81 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D69C7A55173B306800633B81 /* MessageUI.framework */; };
+		D69C7A59173B3E8900633B81 /* TextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D69C7A58173B3E8800633B81 /* TextViewController.m */; };
+		D69C7A5B173B3F0F00633B81 /* TextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D69C7A5A173B3F0F00633B81 /* TextViewController.xib */; };
 		D6CE8CD11736A59D00B72609 /* back.JPG in Resources */ = {isa = PBXBuildFile; fileRef = D6CE8CCF1736A59D00B72609 /* back.JPG */; };
 		D6CE8CD21736A59D00B72609 /* front.JPG in Resources */ = {isa = PBXBuildFile; fileRef = D6CE8CD01736A59D00B72609 /* front.JPG */; };
 		D6CE8CD41736A64B00B72609 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = D6CE8CD31736A64B00B72609 /* test.png */; };
@@ -155,6 +158,10 @@
 		D69C7A341739C50B00633B81 /* OverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayViewController.xib; sourceTree = "<group>"; };
 		D69C7A361739DCE600633B81 /* ImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCropView.h; sourceTree = "<group>"; };
 		D69C7A371739DCE600633B81 /* ImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCropView.m; sourceTree = "<group>"; };
+		D69C7A55173B306800633B81 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		D69C7A57173B3E8700633B81 /* TextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewController.h; sourceTree = "<group>"; };
+		D69C7A58173B3E8800633B81 /* TextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewController.m; sourceTree = "<group>"; };
+		D69C7A5A173B3F0F00633B81 /* TextViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewController.xib; sourceTree = "<group>"; };
 		D6CE8CCF1736A59D00B72609 /* back.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = back.JPG; sourceTree = "<group>"; };
 		D6CE8CD01736A59D00B72609 /* front.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = front.JPG; sourceTree = "<group>"; };
 		D6CE8CD31736A64B00B72609 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
@@ -172,6 +179,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D69C7A56173B306800633B81 /* MessageUI.framework in Frameworks */,
 				D69C7A311739A3D900633B81 /* AudioToolbox.framework in Frameworks */,
 				D69C7A2C1739968D00633B81 /* QuickLook.framework in Frameworks */,
 				D69C7A141739939B00633B81 /* QuartzCore.framework in Frameworks */,
@@ -189,6 +197,7 @@
 		17E5A600146017E9004B1CA6 = {
 			isa = PBXGroup;
 			children = (
+				D69C7A55173B306800633B81 /* MessageUI.framework */,
 				17E5A615146017E9004B1CA6 /* TesseractSample */,
 				17E5A60E146017E9004B1CA6 /* Frameworks */,
 				17E5A60C146017E9004B1CA6 /* Products */,
@@ -225,6 +234,9 @@
 				D69C7A24173994BD00633B81 /* DirectoryWatcher.m */,
 				D69C7A25173994BD00633B81 /* DITableViewController.h */,
 				D69C7A26173994BE00633B81 /* DITableViewController.m */,
+				D69C7A57173B3E8700633B81 /* TextViewController.h */,
+				D69C7A58173B3E8800633B81 /* TextViewController.m */,
+				D69C7A5A173B3F0F00633B81 /* TextViewController.xib */,
 				D69C7A27173994BE00633B81 /* DITableViewController.xib */,
 				D69C7A0D173992D200633B81 /* KNTableDemoController.h */,
 				D69C7A0E173992D200633B81 /* KNTableDemoController.m */,
@@ -464,6 +476,7 @@
 				D69C7A2A173994BE00633B81 /* DITableViewController.xib in Resources */,
 				D69C7A331739C4F600633B81 /* tick.aiff in Resources */,
 				D69C7A351739C50B00633B81 /* OverlayViewController.xib in Resources */,
+				D69C7A5B173B3F0F00633B81 /* TextViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +501,7 @@
 				D69C7A29173994BE00633B81 /* DITableViewController.m in Sources */,
 				D69C7A2F1739A29200633B81 /* OverlayViewController.m in Sources */,
 				D69C7A381739DCE600633B81 /* ImageCropView.m in Sources */,
+				D69C7A59173B3E8900633B81 /* TextViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
