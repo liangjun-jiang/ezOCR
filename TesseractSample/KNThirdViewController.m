@@ -19,7 +19,7 @@
 @synthesize textView;
 @synthesize retryButton;
 @synthesize saveButton;
-@synthesize result;
+@synthesize result,image;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -69,11 +69,15 @@
     NSError *error;
     AppDelegate *delegate = [AppDelegate appDelegate];
     NSString *filePath = [NSString stringWithFormat:@"%@/%@.txt",[delegate filesDirectoryPath],fileName];
-    
+    NSString *imagePath = [NSString stringWithFormat:@"%@/%@.png",[delegate filesDirectoryPath],fileName];
 //    NSLog(@"string to write:%@",printString);
     // Write to the file
     [result writeToFile:filePath atomically:YES
                     encoding:NSUTF8StringEncoding error:&error];
+    
+    NSData *pngData = UIImagePNGRepresentation(image);
+    [pngData writeToFile:imagePath atomically:YES];
+    
     
     if (error == nil) {
         [self dismissButtonDidTouch:nil];

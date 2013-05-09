@@ -1,7 +1,9 @@
 /*
-     File: TextViewController.h
- Abstract: The view controller for hosting the UITextView features of this sample.
-  Version: 2.10
+     File: RecipePhotoViewController.h
+ Abstract: View controller to manage a view to display a recipe's photo.
+ The image view is created programmatically.
+ 
+  Version: 1.4
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -41,18 +43,21 @@
  STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  
- Copyright (C) 2011 Apple Inc. All Rights Reserved.
+ Copyright (C) 2010 Apple Inc. All Rights Reserved.
  
  */
 
-#import <UIKit/UIKit.h>
-#import <MessageUI/MFMailComposeViewController.h>
-#import <MessageUI/MessageUI.h>
 
-@interface TextViewController : UIViewController <UITextViewDelegate,MFMailComposeViewControllerDelegate>
+@interface PhotoViewController : UIViewController {
+    @private
+//        Recipe *recipe;
+    UIImage *image;
+        UIImageView *imageView;
+}
 
-@property (nonatomic, strong) UITextView *textView;
-@property (nonatomic, strong) NSURL *fileURL;
--(id)initWithFileURL:(NSURL *)fileUrl;
+//@property(nonatomic, strong) Recipe *recipe;
+@property(nonatomic, strong) UIImageView *imageView;
+@property(nonatomic, strong) UIImage *image;
+
 
 @end

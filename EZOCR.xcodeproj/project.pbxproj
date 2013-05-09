@@ -49,6 +49,7 @@
 		D69C7A56173B306800633B81 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D69C7A55173B306800633B81 /* MessageUI.framework */; };
 		D69C7A59173B3E8900633B81 /* TextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D69C7A58173B3E8800633B81 /* TextViewController.m */; };
 		D69C7A5B173B3F0F00633B81 /* TextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D69C7A5A173B3F0F00633B81 /* TextViewController.xib */; };
+		D69C7A5E173C172A00633B81 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D69C7A5D173C172900633B81 /* PhotoViewController.m */; };
 		D6CE8CD11736A59D00B72609 /* back.JPG in Resources */ = {isa = PBXBuildFile; fileRef = D6CE8CCF1736A59D00B72609 /* back.JPG */; };
 		D6CE8CD21736A59D00B72609 /* front.JPG in Resources */ = {isa = PBXBuildFile; fileRef = D6CE8CD01736A59D00B72609 /* front.JPG */; };
 		D6CE8CD41736A64B00B72609 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = D6CE8CD31736A64B00B72609 /* test.png */; };
@@ -162,6 +163,8 @@
 		D69C7A57173B3E8700633B81 /* TextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewController.h; sourceTree = "<group>"; };
 		D69C7A58173B3E8800633B81 /* TextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewController.m; sourceTree = "<group>"; };
 		D69C7A5A173B3F0F00633B81 /* TextViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewController.xib; sourceTree = "<group>"; };
+		D69C7A5C173C172800633B81 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
+		D69C7A5D173C172900633B81 /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
 		D6CE8CCF1736A59D00B72609 /* back.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = back.JPG; sourceTree = "<group>"; };
 		D6CE8CD01736A59D00B72609 /* front.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = front.JPG; sourceTree = "<group>"; };
 		D6CE8CD31736A64B00B72609 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
@@ -254,6 +257,8 @@
 				D69C79FE173992B900633B81 /* KNFirstViewController.h */,
 				D69C79FF173992B900633B81 /* KNFirstViewController.m */,
 				D69C7A00173992B900633B81 /* KNFirstViewController.xib */,
+				D69C7A5C173C172800633B81 /* PhotoViewController.h */,
+				D69C7A5D173C172900633B81 /* PhotoViewController.m */,
 				D69C79F91739927F00633B81 /* kNSemiModal */,
 				17E5A61E146017E9004B1CA6 /* AppDelegate.h */,
 				17E5A61F146017E9004B1CA6 /* AppDelegate.mm */,
@@ -502,6 +507,7 @@
 				D69C7A2F1739A29200633B81 /* OverlayViewController.m in Sources */,
 				D69C7A381739DCE600633B81 /* ImageCropView.m in Sources */,
 				D69C7A59173B3E8900633B81 /* TextViewController.m in Sources */,
+				D69C7A5E173C172A00633B81 /* PhotoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *retryButton;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
 @property (nonatomic, strong) NSString *result;
+@property (nonatomic, strong) UIImage *image;
+
 
 - (IBAction)dismissButtonDidTouch:(id)sender;
 - (IBAction)onSaveButton:(id)sender;

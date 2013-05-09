@@ -529,6 +529,7 @@ typedef enum {
 //                      cancelButtonTitle:nil
 //                      otherButtonTitles:@"OK", nil] show];
     semiVC.result = result;
+    semiVC.image = self.imageView.image;
     
     [self presentSemiViewController:semiVC withOptions:@{
      KNSemiModalOptionKeys.pushParentBack    : @(YES),

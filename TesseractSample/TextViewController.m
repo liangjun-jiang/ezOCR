@@ -9,6 +9,7 @@
 
 #import "TextViewController.h"
 
+
 @implementation TextViewController
 
 @synthesize textView, fileURL;
@@ -130,14 +131,16 @@
 	// finish typing text/dismiss the keyboard by removing it as the first responder
 	//
 	[self.textView resignFirstResponder];
-	self.navigationItem.rightBarButtonItem = nil;	// this will remove the "save" button
+    
+    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(displayMailComposerSheet)];
+ 	self.navigationItem.rightBarButtonItem = shareItem;	// this will remove the "save" button
     
     NSError *error;
     [self.textView.text writeToURL:self.fileURL atomically:YES encoding:NSUTF8StringEncoding error:&error];
     
-    if (error == nil) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+//    if (error == nil) {
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }
     
 }
 
@@ -148,6 +151,50 @@
 															target:self
 															action:@selector(saveAction:)];
 	self.navigationItem.rightBarButtonItem = saveItem;
+}
+
+-(void)displayMailComposerSheet
+{
+    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    picker.mailComposeDelegate = self;
+    
+//    NSString *fileName = [[fileURL path] lastPathComponent];
+//    [picker setSubject:fileName];
+//    NSData *myData = [NSData dataWithContentsOfURL:fileURL];
+//    [picker addAttachmentData:myData mimeType:@"text/html" fileName:fileName];
+    
+    NSString *body = self.textView.text;
+    // Fill out the email body text
+    NSString *iTunesLink = @"http://itunes.apple.com/gb/app/whats-on-reading/id347859140?mt=8"; // Link to iTune App link
+    NSString *signature = [NSString stringWithFormat:@"Text extrated from image by <a href = '%@'>EZOCR iOS app </a>!",iTunesLink];
+    [picker setMessageBody:[NSString stringWithFormat:@"%@ </br>-------</br>%@",body,signature] isHTML:YES];
+    
+    [self presentModalViewController:picker animated:YES];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    
+    // Notifies users about errors associated with the interface
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            //            feedbackMsg.text = @"Result: Mail sending canceled";
+            break;
+        case MFMailComposeResultSaved:
+            //            feedbackMsg.text = @"Result: Mail saved";
+            break;
+        case MFMailComposeResultSent:
+            //            feedbackMsg.text = @"Result: Mail sent";
+            break;
+        case MFMailComposeResultFailed:
+            //            feedbackMsg.text = @"Result: Mail sending failed";
+            break;
+        default:
+            //            feedbackMsg.text = @"Result: Mail not sent";
+            break;
+    }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

@@ -7,9 +7,9 @@
 #import "DITableViewController.h"
 #import "MBProgressHUD.h"
 #import "AppDelegate.h"
-#import <MessageUI/MFMailComposeViewController.h>
-#import <MessageUI/MessageUI.h>
+
 #import "TextViewController.h"
+#import "PhotoViewController.h"
 
 /* UIDocumentInteractionController only suppport two actons: print & copy
 http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocumentInteractionControllerDelegate_protocol/DeprecationAppendix/AppendixADeprecatedAPI.html#//apple_ref/occ/intfm/UIDocumentInteractionControllerDelegate/documentInteractionController:canPerformAction:
@@ -21,7 +21,7 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
 @end
 
 
-@interface DITableViewController()<UISearchBarDelegate, UISearchDisplayDelegate, UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate>
+@interface DITableViewController()<UISearchBarDelegate, UISearchDisplayDelegate, UIGestureRecognizerDelegate>
 {
     NSMutableArray	*filteredListContent;
     NSString		*savedSearchTerm;
@@ -121,13 +121,15 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
     
     self.title = @"History";
     
-    self.tabBarItem.image = [UIImage imageNamed:@"first"];
-    self.tabBarItem.title = @"History";
+//    self.tabBarItem.image = [UIImage imageNamed:@"first"];
+//    self.tabBarItem.title = @"History";
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
     self.searchBar.delegate = self;
+    self.searchBar.tintColor = [UIColor blackColor];
 //    self.searchBar.scopeButtonTitles = @[@"File Name", @"File Type"]; 
     self.tableView.tableHeaderView = self.searchBar;
     
@@ -220,15 +222,6 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
 
 }
 
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//    NSString *title = nil;
-//    if (self.documentURLs.count > 0)
-//        title = @"Documents folder";
-//    
-//    return title;
-//}
-
 - (NSString *)formattedFileSize:(unsigned long long)size
 {
 	NSString *formattedStr = nil;
@@ -259,43 +252,12 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
 		 
 		NSURL *fileURL = (self.documentURLs)[cellIndexPath.row];
         
-        Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
-        if (mailClass != nil) {
-            //[self displayMailComposerSheet];
-            // We must always check whether the current device is configured for sending emails
-            if ([mailClass canSendMail]) {
-                [self displayMailComposerSheet:fileURL];
-            }
-        }
-        
-//        if ([iKonicMailComposeViewController canSendMail]) {
-//            NSString *fileName = [[fileURL path] lastPathComponent];
-//            iKonicMailComposeViewController *mailViewController = [[iKonicMailComposeViewController alloc] init];
-//            [mailViewController setSubject:fileName];
-//            // we should decrypt the file first, then make it as attachement
-//            NSData *encryptedData = [NSData dataWithContentsOfURL:fileURL];
-//            NSError *error;
-//            if (![RNDecryptor decryptData:encryptedData withPassword:[[PDKeychainBindings sharedKeychainBindings] objectForKey:@"passwordString"] error:&error]) {
-//                DebugLog(@"couldn't decry the data : %@", [error description]);
-//            } else {
-//                NSData *decryptedData = [RNDecryptor decryptData:encryptedData withPassword:[[PDKeychainBindings sharedKeychainBindings] objectForKey:@"passwordString"] error:&error];
-//                [mailViewController addAttachmentData:decryptedData fileName:fileName];
-//            }
-//            
-//            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-//                mailViewController.modalPresentationStyle = UIModalPresentationPageSheet;
-//            }
-//            [self presentViewController:mailViewController animated:YES completion:nil];
-//            
-//        }
-//        else {
-//            [MBProgressHUD ];
-//        }
-        
-//		self.docInteractionController.URL = fileURL;
-//		[self.docInteractionController presentOptionsMenuFromRect:longPressGesture.view.frame
-//                                                           inView:longPressGesture.view
-//                                                         animated:YES];
+        NSString *imagePath = [[fileURL path] stringByReplacingOccurrencesOfString:@".txt" withString:@".png"];
+        NSData *pngData = [NSData dataWithContentsOfFile:imagePath];
+        PhotoViewController  *photoViewController = [[PhotoViewController alloc] init];
+        photoViewController.hidesBottomBarWhenPushed = YES;
+        photoViewController.image = [UIImage imageWithData:pngData];
+        [self.navigationController pushViewController:photoViewController animated:YES];
     }
 }
 
@@ -308,6 +270,7 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     NSURL *fileURL;
@@ -324,19 +287,14 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
     [self setupDocumentControllerWithURL:fileURL];
 	
     // layout the cell
-    cell.textLabel.text = [[fileURL path] lastPathComponent];
-    NSInteger iconCount = [docInteractionController.icons count];
-    if (iconCount > 0)
-    {
-        cell.imageView.image = (docInteractionController.icons)[iconCount - 1];
+    NSString *fileName = [[fileURL path] lastPathComponent];
+    cell.textLabel.text = fileName;
+    static NSDateFormatter *dateFormatter;
+    if (dateFormatter == nil) {
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     }
-    
-    static NSDateFormatter *dateFormatter = nil;
-	if (dateFormatter == nil) {
-		dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-		[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-	}
     
     NSError *error;
     NSString *fileURLString = [self.docInteractionController.URL path];
@@ -346,22 +304,19 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@",[dateFormatter stringFromDate:fileAttributes[NSFileModificationDate]],
                                  [self formattedFileSize:fileSize]];//, docInteractionController.UTI];
     cell.detailTextLabel.numberOfLines = 2;
- 
-    //let's change to the downloaded date
-//    cell.detailTextLabel.text = fileAttributes[NSFileModificationDate];
     
-    // attach to our view any gesture recognizers that the UIDocumentInteractionController provides
-    //cell.imageView.userInteractionEnabled = YES;
-    
-    //cell.contentView.gestureRecognizers = self.docInteractionController.gestureRecognizers;
-    //
-    // or
-    // add a custom gesture recognizer in lieu of using the canned ones
-    
+    NSString *imagePath = [fileURLString stringByReplacingOccurrencesOfString:@".txt" withString:@".png"];
+    static NSData *pngData;
+    if (pngData == nil) {
+        pngData = [NSData dataWithContentsOfFile:imagePath];
+    }
+    cell.imageView.image = [UIImage imageWithData:pngData scale:0.2];
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
     UILongPressGestureRecognizer *longPressGesture =
     [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     [cell.imageView addGestureRecognizer:longPressGesture];
     cell.imageView.userInteractionEnabled = YES;    // this is by default NO, so we need to turn it on
+
     
     return cell;
 }
@@ -498,6 +453,8 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
     
 	for (NSString* curFileName in [documentsDirectoryContents objectEnumerator])
 	{
+        if( [curFileName rangeOfString:@".txt"].location != NSNotFound){
+        
 		NSString *filePath = [documentsDirectoryPath stringByAppendingPathComponent:curFileName];
 		NSURL *fileURL = [NSURL fileURLWithPath:filePath];
 		
@@ -509,6 +466,7 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
         {
             [self.documentURLs addObject:fileURL];
         }
+    }
         __block NSFileManager *fileManager = [NSFileManager defaultManager];
         [self.documentURLs sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
             NSError *error;
@@ -569,46 +527,5 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
 }
 
 
--(void)displayMailComposerSheet:(NSURL *)fileURL
-{
-    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
-    picker.mailComposeDelegate = self;
-    
-    NSString *fileName = [[fileURL path] lastPathComponent];
-    [picker setSubject:fileName];
-    NSData *myData = [NSData dataWithContentsOfURL:fileURL];
-    [picker addAttachmentData:myData mimeType:@"text/html" fileName:fileName];
-    
-    // Fill out the email body text
-    NSString *iTunesLink = @"http://itunes.apple.com/gb/app/whats-on-reading/id347859140?mt=8"; // Link to iTune App link
-    NSString *emailBody = [NSString stringWithFormat:@"Text extrated from image by <a href = '%@'>EZOCR iOS app </a>!",iTunesLink];
-    [picker setMessageBody:emailBody isHTML:YES];
-    
-    [self presentModalViewController:picker animated:YES];
-}
 
-- (void)mailComposeController:(MFMailComposeViewController*)controller
-          didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-    
-    // Notifies users about errors associated with the interface
-    switch (result)
-    {
-        case MFMailComposeResultCancelled:
-//            feedbackMsg.text = @"Result: Mail sending canceled";
-            break;
-        case MFMailComposeResultSaved:
-//            feedbackMsg.text = @"Result: Mail saved";
-            break;
-        case MFMailComposeResultSent:
-//            feedbackMsg.text = @"Result: Mail sent";
-            break;
-        case MFMailComposeResultFailed:
-//            feedbackMsg.text = @"Result: Mail sending failed";
-            break;
-        default:
-//            feedbackMsg.text = @"Result: Mail not sent";
-            break;
-    }
-    [self dismissModalViewControllerAnimated:YES];
-}
 @end
