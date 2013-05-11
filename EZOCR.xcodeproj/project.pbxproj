@@ -60,6 +60,7 @@
 		D69C7A7B173C468400633B81 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D69C7A7A173C468300633B81 /* Default.png */; };
 		D69C7A7D173C468F00633B81 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D69C7A7C173C468F00633B81 /* Default@2x.png */; };
 		D69C7A7F173C46A300633B81 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D69C7A7E173C46A300633B81 /* Default-568h@2x.png */; };
+		D69C7A8A173EDA7800633B81 /* KNSecondViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D69C7A89173EDA7700633B81 /* KNSecondViewController_iPad.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -175,6 +176,7 @@
 		D69C7A7A173C468300633B81 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		D69C7A7C173C468F00633B81 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D69C7A7E173C46A300633B81 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		D69C7A89173EDA7700633B81 /* KNSecondViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KNSecondViewController_iPad.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,6 +257,7 @@
 				D69C7A03173992C500633B81 /* KNSecondViewController.h */,
 				D69C7A04173992C500633B81 /* KNSecondViewController.mm */,
 				D69C7A05173992C500633B81 /* KNSecondViewController.xib */,
+				D69C7A89173EDA7700633B81 /* KNSecondViewController_iPad.xib */,
 				D69C7A06173992C500633B81 /* KNThirdViewController.h */,
 				D69C7A07173992C500633B81 /* KNThirdViewController.m */,
 				D69C7A08173992C500633B81 /* KNThirdViewController.xib */,
@@ -482,6 +485,7 @@
 				D69C7A7B173C468400633B81 /* Default.png in Resources */,
 				D69C7A7D173C468F00633B81 /* Default@2x.png in Resources */,
 				D69C7A7F173C46A300633B81 /* Default-568h@2x.png in Resources */,
+				D69C7A8A173EDA7800633B81 /* KNSecondViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

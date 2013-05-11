@@ -20,8 +20,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
- 
-    UIViewController * vc2 = [[KNSecondViewController alloc] initWithNibName:@"KNSecondViewController" bundle:nil];
+    UIViewController * vc2;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        vc2 = [[KNSecondViewController alloc] initWithNibName:@"KNSecondViewController" bundle:nil];
+    }else
+        vc2 = [[KNSecondViewController alloc] initWithNibName:@"KNSecondViewController_iPad" bundle:nil];
+   
     DITableViewController *tableView = [[DITableViewController alloc] initWithNibName:@"DITableViewController" bundle:nil];
     AboutViewController  *aboutViewController = [[AboutViewController alloc] initWithStyle:UITableViewStyleGrouped];
      UINavigationController *navController2 = [[UINavigationController alloc] initWithRootViewController:aboutViewController];
