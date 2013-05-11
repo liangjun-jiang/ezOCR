@@ -297,7 +297,7 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
     }
     
     NSError *error;
-    NSString *fileURLString = [self.docInteractionController.URL path];
+    NSString *fileURLString = [fileURL path];
     NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:fileURLString error:&error];
     NSInteger fileSize = [fileAttributes[NSFileSize] intValue];
     
@@ -306,10 +306,7 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
     cell.detailTextLabel.numberOfLines = 2;
     
     NSString *imagePath = [fileURLString stringByReplacingOccurrencesOfString:@".txt" withString:@".png"];
-    static NSData *pngData;
-    if (pngData == nil) {
-        pngData = [NSData dataWithContentsOfFile:imagePath];
-    }
+    NSData *pngData = [NSData dataWithContentsOfFile:imagePath];
     cell.imageView.image = [UIImage imageWithData:pngData scale:0.2];
     cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
     UILongPressGestureRecognizer *longPressGesture =
@@ -371,9 +368,6 @@ http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIDocument
     TextViewController *textViewController = [[TextViewController alloc] initWithFileURL:fileURL];
     textViewController.hidesBottomBarWhenPushed = YES;
     [[self navigationController] pushViewController:textViewController animated:YES];
-    
-
-    
 }
 
 

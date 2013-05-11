@@ -17,7 +17,8 @@
 -(id)initWithFileURL:(NSURL *)fileUrl
 {
     
-    self = [super initWithNibName:@"TextViewController" bundle:nil];
+//    self = [super initWithNibName:@"TextViewController" bundle:nil];
+    self =  [super init];
     if (self) {
         self.fileURL = fileUrl;
     }
@@ -27,7 +28,7 @@
 
 - (void)setupTextView
 {
-	self.textView = [[UITextView alloc] initWithFrame:self.view.frame];
+	self.textView = [[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.textView.textColor = [UIColor blackColor];
 	self.textView.font = [UIFont fontWithName:@"Arial" size:18.0];
 	self.textView.delegate = self;
@@ -46,7 +47,15 @@
 	// note: for UITextView, if you don't like autocompletion while typing use:
 	// myTextView.autocorrectionType = UITextAutocorrectionTypeNo;
 	
-	[self.view addSubview: self.textView];
+//	[self.view addSubview: self.textView];
+}
+
+- (void)loadView
+{
+    
+    [self setupTextView];
+    self.view = self.textView;
+    
 }
 
 - (void)viewDidLoad
@@ -54,7 +63,7 @@
 	[super viewDidLoad];
 	
 	self.title = [[self.fileURL path] lastPathComponent];
-	[self setupTextView];
+//	[self setupTextView];
 }
 
 // called after the view controller's view is released and set to nil.
@@ -168,8 +177,8 @@
     NSString *iTunesLink = @"http://itunes.apple.com/gb/app/whats-on-reading/id347859140?mt=8"; // Link to iTune App link
     NSString *signature = [NSString stringWithFormat:@"Text extrated from image by <a href = '%@'>EZOCR iOS app </a>!",iTunesLink];
     [picker setMessageBody:[NSString stringWithFormat:@"%@ </br>-------</br>%@",body,signature] isHTML:YES];
-    
-    [self presentModalViewController:picker animated:YES];
+    [self presentViewController:picker animated:YES completion:nil];
+//    [self presentModalViewController:picker animated:YES];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller
@@ -194,7 +203,8 @@
             //            feedbackMsg.text = @"Result: Mail not sent";
             break;
     }
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end
