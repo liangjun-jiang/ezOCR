@@ -316,7 +316,7 @@ typedef enum {
 
 @end
 @implementation KNSecondViewController
-@synthesize navBar, imageView, overlayViewController, capturedImages;
+@synthesize navBar, imageView, overlayViewController, capturedImages, popOverController;
 @synthesize progressHud;
 @synthesize processButton;
 
@@ -411,7 +411,18 @@ typedef enum {
     if ([UIImagePickerController isSourceTypeAvailable:sourceType])
     {
         [self.overlayViewController setupImagePicker:sourceType];
-        [self presentModalViewController:self.overlayViewController.imagePickerController animated:YES];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            [self presentViewController:self.overlayViewController.imagePickerController animated:YES completion:nil];
+        } else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+            if ([self.popOverController isPopoverVisible]) {
+                [self.popOverController dismissPopoverAnimated:NO];
+            } else {
+                self.popOverController = [[UIPopoverController alloc] initWithContentViewController:self.overlayViewController.imagePickerController];
+                self.popOverController.delegate = self;
+                [self.popOverController presentPopoverFromRect:CGRectMake(20.0, 20.0, 30.0, 30.0) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+                }
+            
+        }
     }
 }
 
@@ -434,8 +445,11 @@ typedef enum {
 // as a delegate we are told to finished with the camera
 - (void)didFinishWithCamera
 {
-    [self dismissModalViewControllerAnimated:YES];
-    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.popOverController dismissPopoverAnimated:YES];
+    }
     if ([self.capturedImages count] > 0)
     {
         if ([self.capturedImages count] == 1)
@@ -483,7 +497,7 @@ typedef enum {
 - (void) semiModalResized:(NSNotification *) notification {
   if(notification.object == self){
 //    NSLog(@"The view controller presented was been resized");
-//      semiVC.textView.text = resu
+      semiVC.textView.text = semiVC.result;
   }
 }
 
@@ -529,6 +543,7 @@ typedef enum {
 //                      cancelButtonTitle:nil
 //                      otherButtonTitles:@"OK", nil] show];
     semiVC.result = result;
+    semiVC.textView.text = result;
     semiVC.image = self.imageView.image;
     
     [self presentSemiViewController:semiVC withOptions:@{

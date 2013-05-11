@@ -37,13 +37,15 @@
     
     
     self.title = NSLocalizedString(@"About", @"About");
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
+    self.tableView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     
     self.nameTextField.text = @"EZOCR";
-    self.overviewTextField.text = @"Image to Text Tool";
+    self.overviewTextField.text = @"An Image to Text Tool";
     self.versionTextField.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
-    NSDictionary *developer = @{@"name":@"Liangjun Jiang", @"title":@"Developers"};
+    NSDictionary *developer = @{@"name":@"Liangjun Jiang, 2010.longhorn@gmail.com", @"title":@"Developers"};
     NSDictionary *creative= @{@"name":@"Liangjun Jiang", @"title":@"Creative"};
     self.authors = @[developer, creative];
     NSDictionary *credit1 = @{@"name":@"TesseractSample", @"title":@"by Ângelo Suzuki ", @"url":@""};

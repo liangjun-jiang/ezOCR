@@ -43,7 +43,7 @@
 
   // Here's how to call dismiss button on the parent ViewController
   // be careful with view hierarchy
-    self.textView.text = @"";
+//    self.textView.text = @"";
   UIViewController * parent = [self.view containingViewController];
   if ([parent respondsToSelector:@selector(dismissSemiModalView)]) {
     [parent dismissSemiModalView];

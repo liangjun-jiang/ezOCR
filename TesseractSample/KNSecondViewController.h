@@ -19,7 +19,7 @@ namespace tesseract {
 
 @class KNThirdViewController;
 
-@interface KNSecondViewController : UIViewController <OverlayViewControllerDelegate>{
+@interface KNSecondViewController : UIViewController <OverlayViewControllerDelegate, UIPopoverControllerDelegate>{
   KNThirdViewController * semiVC;
     
     MBProgressHUD *progressHud;
@@ -36,6 +36,7 @@ namespace tesseract {
 @property (nonatomic, strong) OverlayViewController *overlayViewController;
 
 @property (nonatomic, strong) NSMutableArray *capturedImages;
+@property (nonatomic, strong) UIPopoverController *popOverController;
 
 // toolbar buttons
 - (IBAction)photoLibraryAction:(id)sender;
