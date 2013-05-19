@@ -32,8 +32,6 @@
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:tableView];
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = @[vc2,navController,navController2];
-//    self.tabBarController.tabBar.items[0] = [[UITabBarItem alloc] initWithTitle:@"OCR" image:[UIImage imageNamed:@"first"] tag:100];
-//    self.tabBarController.tabBar.items[1] = [[UITabBarItem alloc] initWithTitle:@"History" image:[UIImage imageNamed:@"second"] tag:100];
     [self.tabBarController.tabBar.items[0] setTitle:@"OCR"];
     [self.tabBarController.tabBar.items[1] setTitle:@"History"];
     [self.tabBarController.tabBar.items[2] setTitle:@"About"];
@@ -42,24 +40,8 @@
     
     [self.window makeKeyAndVisible];
     
-    // First tab
-//    UIViewController * vc1 = [[KNFirstViewController alloc] initWithNibName:@"KNFirstViewController" bundle:nil];
-//    
-//    // Second tab
-//    UINavigationController * uinav = [[UINavigationController alloc] initWithRootViewController:vc1];
-//    UIViewController * vc2 = [[KNSecondViewController alloc] initWithNibName:@"KNSecondViewController" bundle:nil];
-//    
-//    // Third tab
-//    KNTableDemoController * vc3 = [[KNTableDemoController alloc] initWithStyle:UITableViewStyleGrouped];
-//    
-//    // About tab
-////    KNAboutViewController * ab = [[KNAboutViewController alloc] initWithNibName:@"KNAboutViewController" bundle:nil];
-//    
-//    self.tabBarController = [[UITabBarController alloc] init];
-//    self.tabBarController.viewControllers = [NSArray arrayWithObjects:uinav, vc2, vc3, tableView,nil];
-//    self.window.rootViewController = self.tabBarController;
-//    [self.window makeKeyAndVisible];
-
+    [self addSkipBackupAttributeToItemAtURL:[self trainingDataURL]];
+    
     return YES;
 }
 
@@ -108,9 +90,14 @@
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
+- (NSString *)documentsDirectory
+{
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
+
 - (NSString *)filesDirectoryPath
 {
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *documentsDirectory = [self documentsDirectory];
     
     NSString *filesDirectory = [documentsDirectory stringByAppendingPathComponent:@"Files"];
     
@@ -129,4 +116,27 @@
     
 	return filesDirectory;
 }
+
+- (NSURL *)trainingDataURL
+{
+    NSString *documentsDirectory = [self documentsDirectory];
+    NSString *file = [documentsDirectory stringByAppendingPathComponent:@"tessdata/eng.traineddata"];
+    return [NSURL fileURLWithPath:file];
+}
+
+
+//https://developer.apple.com/library/ios/#qa/qa1719/_index.html
+- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
+{
+    assert([[NSFileManager defaultManager] fileExistsAtPath: [URL path]]);
+    
+    NSError *error = nil;
+    BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
+                                  forKey: NSURLIsExcludedFromBackupKey error: &error];
+    if(!success){
+        NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+    }
+    return success;
+}
+
 @end
